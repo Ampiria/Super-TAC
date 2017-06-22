@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_supertictactoe2" default="compile.module.supertictactoe2">
+  <dirname property="module.supertictactoe2.basedir" file="${ant.file.module_supertictactoe2}"/>
+  
+  <property name="module.jdk.home.supertictactoe2" value="${jdk.home.1.8}"/>
+  <property name="module.jdk.bin.supertictactoe2" value="${jdk.bin.1.8}"/>
+  <property name="module.jdk.classpath.supertictactoe2" value="jdk.classpath.1.8"/>
+  
+  <property name="compiler.args.supertictactoe2" value="-encoding UTF-8 -source 1.5 -target 1.5 ${compiler.args}"/>
+  
+  <property name="supertictactoe2.output.dir" value="${module.supertictactoe2.basedir}/target/classes"/>
+  <property name="supertictactoe2.testoutput.dir" value="${module.supertictactoe2.basedir}/target/test-classes"/>
+  
+  <path id="supertictactoe2.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="supertictactoe2.module.production.classpath">
+    <path refid="${module.jdk.classpath.supertictactoe2}"/>
+  </path>
+  
+  <path id="supertictactoe2.runtime.production.module.classpath">
+    <pathelement location="${supertictactoe2.output.dir}"/>
+  </path>
+  
+  <path id="supertictactoe2.module.classpath">
+    <path refid="${module.jdk.classpath.supertictactoe2}"/>
+    <pathelement location="${supertictactoe2.output.dir}"/>
+  </path>
+  
+  <path id="supertictactoe2.runtime.module.classpath">
+    <pathelement location="${supertictactoe2.testoutput.dir}"/>
+    <pathelement location="${supertictactoe2.output.dir}"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.supertictactoe2">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.supertictactoe2">
+    <patternset refid="excluded.from.module.supertictactoe2"/>
+  </patternset>
+  
+  <path id="supertictactoe2.module.sourcepath">
+    <dirset dir="${module.supertictactoe2.basedir}">
+      <include name="src/main/java"/>
+      <include name="src/main/resources"/>
+      <include name="images"/>
+    </dirset>
+  </path>
+  
+  <path id="supertictactoe2.module.test.sourcepath">
+    <dirset dir="${module.supertictactoe2.basedir}">
+      <include name="src/test/java"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.supertictactoe2" depends="compile.module.supertictactoe2.production,compile.module.supertictactoe2.tests" description="Compile module supertictactoe2"/>
+  
+  <target name="compile.module.supertictactoe2.production" depends="register.custom.compilers" description="Compile module supertictactoe2; production classes">
+    <mkdir dir="${supertictactoe2.output.dir}"/>
+    <javac2 destdir="${supertictactoe2.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.supertictactoe2}/javac">
+      <compilerarg line="${compiler.args.supertictactoe2}"/>
+      <bootclasspath refid="supertictactoe2.module.bootclasspath"/>
+      <classpath refid="supertictactoe2.module.production.classpath"/>
+      <src refid="supertictactoe2.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.supertictactoe2"/>
+    </javac2>
+    
+    <copy todir="${supertictactoe2.output.dir}">
+      <fileset dir="${module.supertictactoe2.basedir}/src/main/java">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.supertictactoe2.basedir}/src/main/resources">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.supertictactoe2.basedir}/images">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.supertictactoe2.tests" depends="register.custom.compilers,compile.module.supertictactoe2.production" description="compile module supertictactoe2; test classes" unless="skip.tests">
+    <mkdir dir="${supertictactoe2.testoutput.dir}"/>
+    <javac2 destdir="${supertictactoe2.testoutput.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.supertictactoe2}/javac">
+      <compilerarg line="${compiler.args.supertictactoe2}"/>
+      <bootclasspath refid="supertictactoe2.module.bootclasspath"/>
+      <classpath refid="supertictactoe2.module.classpath"/>
+      <src refid="supertictactoe2.module.test.sourcepath"/>
+      <patternset refid="excluded.from.compilation.supertictactoe2"/>
+    </javac2>
+    
+    <copy todir="${supertictactoe2.testoutput.dir}">
+      <fileset dir="${module.supertictactoe2.basedir}/src/test/java">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="clean.module.supertictactoe2" description="cleanup module">
+    <delete dir="${supertictactoe2.output.dir}"/>
+    <delete dir="${supertictactoe2.testoutput.dir}"/>
+  </target>
+</project>
